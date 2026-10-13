@@ -1,0 +1,23 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile-check publish_skill.py
+        run: python -m py_compile publish_skill.py && echo "OK: publish_skill.py compiles"
+
+      - name: Smoke-test --help
+        run: python publish_skill.py --help > /dev/null && echo "OK: --help renders"
